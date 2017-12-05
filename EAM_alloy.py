@@ -48,8 +48,8 @@ def get_L_J(sigma,epsilon,name):
     #plt.show()
     return data[:,2]
 def get_output_EAM_alloy():
-    d1=get_L_J(2.3,0.2,'L-J-Ag-O.tmp')   #Ag atomic radius 1.7 O 0.6
-    d2=get_L_J(3.3,0.5,'L-J-X.tmp')   #ZnO lattice const.
+    d1=get_L_J(2.3/1.12,0.2,'L-J-Ag-O.tmp')   #Ag atomic radius 1.7 O 0.6
+    d2=get_L_J(3.3/1.12,0.5,'L-J-X.tmp')   #ZnO lattice const.
     with open('CuAg_hand.eam.alloy','r') as fin:
         mylines=fin.readlines()
     Nele=int(mylines[3].split()[0])
