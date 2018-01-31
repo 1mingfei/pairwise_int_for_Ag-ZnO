@@ -47,8 +47,8 @@ def get_L_J(sigma,epsilon,name):
     #plt.ylim(-2.5, 2)
     #plt.show()
     return data[:,2]
-def get_output_EAM_alloy():
-    d1=get_L_J(2.3/1.12,0.2,'L-J-Ag-O.0.2')   #Ag atomic radius 1.7 O 0.6
+def get_output_EAM_alloy_3():
+    d1=get_L_J(2.6/1.12,0.2,'L-J-Ag-O.0.2')   #Ag atomic radius 1.7 O 0.6
     d2=get_L_J(3.3/1.12,0.5,'L-J-X.tmp')   #ZnO lattice const.
     with open('AgO_hand.eam.alloy','r') as fin:
         mylines=fin.readlines()
@@ -57,13 +57,22 @@ def get_output_EAM_alloy():
     Nr  =int(mylines[4].split()[2])
     
     with open('AgO_auto.eam.alloy','w') as fout:
+        #Nrho and Nr for each element:
         for i in range(7+Nele*(Nrho+Nr)):
             fout.write(mylines[i])
+        #phi terms ele1: strong ele2: weak ele3: Ag
+        # i,j = (1,1), (2,1), (2,2), (3,1), (3,2), (3,3), (4,1), …, (Nelements, Nelements)
+        for i in range(Nr):
+            fout.write('   %+24.16E\n'%d2[i])
+        for i in range(Nr):
+            fout.write('   %+24.16E\n'%d2[i])
         for i in range(Nr):
             fout.write('   %+24.16E\n'%d2[i])
         for i in range(Nr):
             fout.write('   %+24.16E\n'%d1[i])
-        for i in range(7+Nele*(Nrho+Nr+Nr),7+Nele*(Nrho+Nr+Nr)+Nr):
+        for i in range(Nr):
+            fout.write('   %+24.16E\n'%d1[i])
+        for i in range(80008,90007):
             fout.write(mylines[i])
     return
 
@@ -71,8 +80,4 @@ def get_output_EAM_alloy():
     
 
 
-#get_L_J(sigma,epsilon)
-#get_L_J(2.3/1.12,0.1,'L-J-Ag-O.tmp')   #Ag atomic radius 1.7 O 0.6
-#get_L_J(3.3/1.12,0.5,'L-J-X.tmp')   #ZnO lattice const.
-get_output_EAM_alloy()
-
+get_output_EAM_alloy_3()
